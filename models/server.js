@@ -54,7 +54,10 @@ class Server{
 
         //cors
 
-        this.app.use(cors());
+        this.app.use(cors({
+            origin: 'http://localhost:4200',  // Especifica el origen de tu frontend
+            credentials: true,                // Permite el envío de cookies y credenciales
+          }));
 
         //Lectura y parseo del body para POST
         this.app.use(express.json() );
