@@ -2,26 +2,22 @@ FROM debian:bullseye as builder
 
 ARG NODE_VERSION=18.12.1
 
-RUN apt-get update; apt install -y curl
-RUN curl https://get.volta.sh | bash
+RUN apt-get update && apt-get install -y curl \
+    && curl https://get.volta.sh | bash \
+    && /root/.volta/bin/volta install node@${NODE_VERSION} yarn
+
 ENV VOLTA_HOME /root/.volta
 ENV PATH /root/.volta/bin:$PATH
-RUN volta install node@${NODE_VERSION}
-
-#######################################################################
 
 RUN mkdir /app
 WORKDIR /app
-
-# NPM will not install any package listed in "devDependencies" when NODE_ENV is set to "production",
-# to install all modules: "npm install --production=false".
-# Ref: https://docs.npmjs.com/cli/v9/commands/npm-install#description
 
 ENV NODE_ENV production
 
 COPY . .
 
-RUN npm install
+RUN npm install --production
+
 FROM debian:bullseye
 
 LABEL fly_launch_runtime="nodejs"

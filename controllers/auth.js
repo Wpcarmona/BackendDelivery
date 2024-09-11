@@ -53,7 +53,7 @@ const login = async (req, res = response) => {
             httpOnly: true, // La cookie no será accesible a través de JS del cliente
             secure: true,   // Solo se envía en HTTPS
             sameSite: 'Strict', // Evita el envío de la cookie en solicitudes de terceros (protege contra CSRF)
-            maxAge: 14 * 24 * 60 * 60 * 1000, // La cookie expira en 1 día (24 horas)
+            maxAge: 14 * 24 * 60 * 60 * 1000, // La cookie expira en 2 seamanas (14 dias)
         });
 
         // Retornar respuesta sin token en el cuerpo
@@ -61,6 +61,7 @@ const login = async (req, res = response) => {
             header: [{
                 error: 'NO ERROR',
                 code: 200,
+                token
             }],
             body: [
                 usuario
