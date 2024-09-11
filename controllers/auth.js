@@ -49,19 +49,18 @@ const login = async (req, res = response) => {
         const token = await generarJWT(usuario.id);
 
         // Establecer cookie segura con HttpOnly y Secure
-        // res.cookie('token', token, {
-        //     httpOnly: true, // La cookie no será accesible a través de JS del cliente
-        //     secure: true,   // Solo se envía en HTTPS
-        //     sameSite: 'Strict', // Evita el envío de la cookie en solicitudes de terceros (protege contra CSRF)
-        //     maxAge: 14 * 24 * 60 * 60 * 1000, // La cookie expira en 2 seamanas (14 dias)
-        // });
+        res.cookie('token', token, {
+            httpOnly: true, // La cookie no será accesible a través de JS del cliente
+            secure: true,   // Solo se envía en HTTPS
+            sameSite: 'Strict', // Evita el envío de la cookie en solicitudes de terceros (protege contra CSRF)
+            maxAge: 14 * 24 * 60 * 60 * 1000, // La cookie expira en 2 seamanas (14 dias)
+        });
 
         // Retornar respuesta sin token en el cuerpo
         res.status(200).json({
             header: [{
                 error: 'NO ERROR',
-                code: 200,
-                token
+                code: 200
             }],
             body: [
                 usuario
