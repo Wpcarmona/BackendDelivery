@@ -4,11 +4,15 @@ const dbConnection = async() => {
 
     try {
 
-       await  mongoose.connect(process.env.MONGODB_CNN);
+       await  mongoose.connect(process.env.MONGODB_CNN, {
+            useNewUrlParser: true,
+            useUnifiedTopology: true
+       });
 
        console.log('Base de datos online')
         
     } catch (error) {
+        console.error('Error en la conexión a la base de datos:', error);
         throw new Error('Error a la hora de iniciar la base de datos')
     }
 
